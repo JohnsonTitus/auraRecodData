@@ -1,0 +1,30 @@
+<!--(force:hasRecordId)to enable the component to be assigned the ID of the current record. 
+The current record ID is useful if the component is used on a Lightning record page
+(flexipage:availableForRecordHome)To make your component available for record pages only-->
+<aura:component implements="force:hasRecordId,flexipage:availableForRecordHome">
+	<aura:attribute name="accountRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    
+    <!--(force:recordData) to record crud using lightning data service
+    (recordId) the record ID is supplied by the implicit recordId attribute to use in the where clause
+    (fields)Specifies which of the record's fields to query.
+    (targetFields)to load the query result i.e. record in the object variable accountRecord
+    though its a generic object variable, its meant to store accord record as the targetfields refer to accounts
+    (targetError)and error message in the string variable recordLoadError-->
+    <force:recordData aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="Name,Description,Phone,Industry"
+    targetFields="{!v.accountRecord}"
+    targetError="{!v.recordLoadError}"
+    />
+    
+    <div> 
+        <lightning:card iconName="standard:account" title="{!v.accountRecord.Name}" >
+            <div class="slds-p-horizontal--small">
+                <p class="slds-text-heading--medium"><lightning:formattedPhone title="Phone" value="{!v.accountRecord.Phone}" /></p>
+                <p class="slds-truncate"><lightning:formattedText title="Description" value="{!v.accountRecord.Description}" /></p>
+                <p class="slds-truncate"> <lightning:formattedText title="Industry" value="{!v.accountRecord.Industry}" /></p>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>	
